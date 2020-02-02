@@ -10,3 +10,4 @@ node_modules/
 package.json
 project.config.json
 __pycache__/
+*.json

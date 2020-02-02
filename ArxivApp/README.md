@@ -36,6 +36,7 @@ taro build --type weapp --watch
 |   ├── reducers           Redux Reducer
 |   ├── service            Request API
 |   ├── store              Redux Store
+|   ├── styles             样式文件目录
 |   ├── utils              公共方法库
 |   ├── app.css            项目总通用样式
 |   └── app.js             项目入口文件
@@ -46,5 +47,11 @@ taro build --type weapp --watch
 
 ## 开发历程
 
-* 2020/02/02    添加 Home，User 页面。
-* 2020/02/02    添加封装 api 脚手架：service/，utils/common.js，utils/validator.js，constants/status.js
+* 2020/02/02
+  * 添加 Home，User 页面。
+  * 添加封装 api 脚手架：service/，utils/common.js，utils/validator.js，constants/status.js
+  * 添加搜索栏组件：components/fake-search-bar/，styles/
+  * 使用 URL 控制页面路由：constants/urls.js
+  * 添加类别分页*<AtTabBar>*：最新，热门，推荐。
+  *  
+
