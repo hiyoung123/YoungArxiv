@@ -9,7 +9,7 @@ import {
 
 export const getNewPapers = () => {
     return async dispatch => {
-        let result = await API.get("posts/");
+        let result = await API.get("news/");
         dispatch({
           type: GET_NEW_PAPER,
           papers: result
@@ -19,7 +19,7 @@ export const getNewPapers = () => {
 
 export const getHotPapers = () => {
   return async dispatch => {
-      let result = await API.get("comments/");
+      let result = await API.get("hots/");
       dispatch({
         type: GET_HOT_PAPER,
         papers: result
@@ -29,7 +29,7 @@ export const getHotPapers = () => {
 
 export const getRecommendPapers = () => {
   return async dispatch => {
-      let result = await API.get("profile/");
+      let result = await API.get("recommends/");
       dispatch({
         type: GET_RECOMMEND_PAPER,
         papers: result

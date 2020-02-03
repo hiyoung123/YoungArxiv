@@ -1,9 +1,10 @@
+/* eslint-disable react/jsx-closing-bracket-location */
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/no-unused-state */
 import Taro, { Component }from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtTabBar } from 'taro-ui'
+import { AtTabBar, AtList, AtListItem } from "taro-ui"
 import { connect } from '@tarojs/redux'
 import FakeSearchBar from "../../components/fake-search-bar";
 import URL from "../../constants/urls";
@@ -40,7 +41,7 @@ class Home extends Component {
       }
 
     componentDidMount() {
-        this.props.dispatchGetNewPapers()
+        this.fetchData(this.state.current)
     }
 
     config = {
@@ -87,7 +88,18 @@ class Home extends Component {
                     onClick={this.handleClick}
                     current={this.state.current}
                 />
-                <View> {this.props.papers} </View>
+                <View>              
+                    <AtList>
+                        {this.props.papers.map(item => 
+                                <AtListItem
+                                title={item.title}
+                                note={item.author}
+                                arrow='right'
+                                thumb='http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png'
+                            />
+                        )}
+                    </AtList> 
+                </View>
             </View>
         )
     }
