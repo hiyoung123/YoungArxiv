@@ -3,10 +3,21 @@
 import Taro, { Component }from '@tarojs/taro'
 import { View } from '@tarojs/components'
 import { AtTabBar } from 'taro-ui'
+import { connect } from '@tarojs/redux'
 import FakeSearchBar from "../../components/fake-search-bar";
 import URL from "../../constants/urls";
+import { getNewPapers } from "../../actions/home"
 
-export default class Home extends Component {
+@connect(
+    ({ home }) => ({
+      newPapers: home.newPapers,
+    }),
+    {
+      dispatchGetNewPapers: getNewPapers,
+    }
+  )
+
+class Home extends Component {
 
     constructor() {
         super(...arguments);
@@ -16,13 +27,16 @@ export default class Home extends Component {
 
     state = {
         current : 0,
-        curList : [],
       }
+
+    componentDidMount() {
+        this.props.dispatchGetNewPapers()
+    }
 
     config = {
         navigationBarTitleText: "首页"
     };
-
+    
     onClickSearchBar() {
         Taro.navigateTo({ url: URL.SEARCH });
     }
@@ -48,8 +62,10 @@ export default class Home extends Component {
                     onClick={this.handleClick}
                     current={this.state.current}
                 />
-                <View>{ this.state.curList }</View>
+                <View> {this.props.newPapers[0].title} </View>
             </View>
         )
     }
 }
+
+export default Home

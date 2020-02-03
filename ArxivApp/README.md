@@ -52,6 +52,9 @@ taro build --type weapp --watch
   * 添加封装 api 脚手架：service/，utils/common.js，utils/validator.js，constants/status.js
   * 添加搜索栏组件：components/fake-search-bar/，styles/
   * 使用 URL 控制页面路由：constants/urls.js
-  * 添加类别分页*<AtTabBar>*：最新，热门，推荐。
-  *  
+  * 添加类别分页*AtTabBar*：最新，热门，推荐。
+* 2020/02/03
+  * 解决 async 不可用问题，[参考文章](https://blog.csdn.net/xubaifu1997/article/details/90605683)
+  * 完成 Redux 集成，可以从 mock 中读取数据并显示。
+  * 
 
