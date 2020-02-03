@@ -65,10 +65,11 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
+     'YoungArxiv.pipelines.ToJsonPipeline': 300,
    # 'YoungArxiv.pipelines.ToMongoDbPipeline': 300,
    # 'YoungArxiv.pipelines.ToCsvPipeline': 300,
    # 'YoungArxiv.pipelines.ToMySqlPipeline': 300,
-'YoungArxiv.pipelines.ToEsPipeline': 300,
+   # 'YoungArxiv.pipelines.ToEsPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -15,6 +15,7 @@ class YoungarxivItem(scrapy.Item):
 
 class ArxivItem(scrapy.Item):
     id = scrapy.Field()
+    pid = scrapy.Field()
     version = scrapy.Field()
     author = scrapy.Field()
     authors = scrapy.Field()

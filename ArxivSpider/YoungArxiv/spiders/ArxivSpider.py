@@ -22,12 +22,13 @@ class ArxivspiderSpider(scrapy.Spider):
     start_urls = [query_url.format(filter_search,start_index,batch_size)]
 
     def parse(self, response):
-        item =  ArxivItem()
+        item = ArxivItem()
         parser = feedparser.parse(response.body)
         if self.end_index == -1 :
             self.end_index = int(parser.feed['opensearch_totalresults'])
         for i in parser.entries:
             j = encode_feedparser_dict(i)
+            item['id'] = self.start_index
             item['published'] = j['published']
             item['author'] = j['author']
             item['authors'] = [x['name'] for x in j['authors']]
@@ -37,8 +38,8 @@ class ArxivspiderSpider(scrapy.Spider):
             item['tags'] = [x['term'] for x in j['tags']]
             item['updated'] = j['updated']
             item['arxiv_primary_category'] = j['arxiv_primary_category']['term']
-            id, version = parse_arxiv_url(item['link'])
-            item['id'] = id
+            pid, version = parse_arxiv_url(item['link'])
+            item['pid'] = pid
             item['version'] = version
             pdfs = [x['href'] for x in j['links'] if x['type'] == 'application/pdf']
             pdf_url = pdfs[0] + '.pdf'
@@ -48,6 +49,8 @@ class ArxivspiderSpider(scrapy.Spider):
             item['pdf_path'] = fname
             item['pdf_url'] = pdf_url
             item['thumb_path'] = tname
+
+
 
             # item['title_detail'] = j['title_detail']
             # item['updated_parsed'] = j['updated_parsed']

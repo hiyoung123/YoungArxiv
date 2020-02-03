@@ -4,11 +4,13 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
+
+import json
 import os
 import time
 import random
 import shutil
-from  urllib.request import urlopen
+from urllib.request import urlopen
 
 from YoungArxiv.db.mgdb import MgDb
 from YoungArxiv.db.esdb import EsDb
@@ -37,11 +39,6 @@ class ToMongoDbPipeline(object):
             self.skip_num += 1
             print('skip item {0}'.format(self.skip_num))
 
-class ToMySqlPipeline(object):
-
-    def process_item(self,item,spider):
-        pass
-
 
 class ToEsPipeline(object):
     def __init__(self):
@@ -65,10 +62,19 @@ class ToEsPipeline(object):
             self.skip_num += 1
             print('skip item {0}'.format(self.skip_num))
 
-class ToCsvPipeline(object):
+
+class ToJsonPipeline(object):
+
+    def open_spider(self, spider):
+        self.file = open('../data/papers/papers.json', 'w')
+
+    def close_spider(self, spider):
+        self.file.close()
 
     def process_item(self, item, spider):
-        pass
+        line = json.dumps(dict(item)) + "\n"
+        self.file.write(line)
+        return item
 
 
 def download_pdf(pdf_path,pdf_url):
