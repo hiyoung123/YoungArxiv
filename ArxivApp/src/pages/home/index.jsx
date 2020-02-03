@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/no-unused-state */
 import Taro, { Component }from '@tarojs/taro'
@@ -6,14 +7,23 @@ import { AtTabBar } from 'taro-ui'
 import { connect } from '@tarojs/redux'
 import FakeSearchBar from "../../components/fake-search-bar";
 import URL from "../../constants/urls";
-import { getNewPapers } from "../../actions/home"
+import { 
+    getNewPapers,
+    getHotPapers,
+    getRecommendPapers
+ } from "../../actions/home"
 
 @connect(
     ({ home }) => ({
-      newPapers: home.newPapers,
+        papers : home.papers
+    //   newPapers: home.newPapers,
+    //   hotPapers: home.hotPapers,
+    //   recommendPapers: home.recommendPapers
     }),
     {
       dispatchGetNewPapers: getNewPapers,
+      dispatchGetHotPapers: getHotPapers,
+      dispatchGetRecommendPapers: getRecommendPapers,
     }
   )
 
@@ -44,8 +54,23 @@ class Home extends Component {
     handleClick(value) {
         this.setState({
             current: value,
-            curList: ""
         })
+        this.fetchData(value)
+    }
+
+    fetchData(type) {
+        console.log(type)
+        switch(type){
+            case 0:
+                this.props.dispatchGetNewPapers();
+                break
+            case 1:
+                this.props.dispatchGetHotPapers();
+                break
+            case 2:
+                this.props.dispatchGetRecommendPapers();
+                break
+        } 
     }
 
     render () {
@@ -62,7 +87,7 @@ class Home extends Component {
                     onClick={this.handleClick}
                     current={this.state.current}
                 />
-                <View> {this.props.newPapers[0].title} </View>
+                <View> {this.props.papers} </View>
             </View>
         )
     }
