@@ -72,7 +72,7 @@ class ToJsonPipeline(object):
         self.file.close()
 
     def process_item(self, item, spider):
-        line = json.dumps(dict(item)) + "\n"
+        line = json.dumps(dict(item)) + ",\n"
         self.file.write(line)
         return item
 

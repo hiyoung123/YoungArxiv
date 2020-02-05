@@ -11,5 +11,5 @@ class Config(object):
     THUMB_PATH = './data/thumb'
     TMP_PATH = './data/tmp'
     start_index = 0
-    end_index = -1
+    end_index = 100
     batch_size = 100
