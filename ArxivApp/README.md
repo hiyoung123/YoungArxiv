@@ -57,4 +57,7 @@ taro build --type weapp --watch
   * 解决 async 不可用问题，[参考文章](https://blog.csdn.net/xubaifu1997/article/details/90605683)
   * 完成 Redux 集成，可以从 mock 中读取数据并显示。
   * 添加 AtList 组件，使用伪数据显示。
+* 2020/02/05
+  * 添加 loading 组件：components/loading
+  * 抽离 PaperList 组件：components/paper-list
 

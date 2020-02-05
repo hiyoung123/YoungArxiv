@@ -4,9 +4,11 @@
 /* eslint-disable react/no-unused-state */
 import Taro, { Component }from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtTabBar, AtList, AtListItem } from "taro-ui"
+import { AtTabBar } from "taro-ui"
 import { connect } from '@tarojs/redux'
+import Loading from "../../components/loading";
 import FakeSearchBar from "../../components/fake-search-bar";
+import PaperList from "../../components/paper-list";
 import URL from "../../constants/urls";
 import { 
     getNewPapers,
@@ -38,6 +40,8 @@ class Home extends Component {
 
     state = {
         current : 0,
+        loaded: false,
+        loading: false,
       }
 
     componentDidMount() {
@@ -60,16 +64,23 @@ class Home extends Component {
     }
 
     fetchData(type) {
+        this.setState({ loading: true })
         console.log(type)
         switch(type){
             case 0:
-                this.props.dispatchGetNewPapers();
+                this.props.dispatchGetNewPapers().then((res) => {
+                    this.setState({ loading: false, loaded: true })
+                });
                 break
             case 1:
-                this.props.dispatchGetHotPapers();
+                this.props.dispatchGetHotPapers().then((res) => {
+                    this.setState({ loading: false, loaded: true })
+                });
                 break
             case 2:
-                this.props.dispatchGetRecommendPapers();
+                this.props.dispatchGetRecommendPapers().then((res) => {
+                    this.setState({ loading: false, loaded: true })
+                });
                 break
         } 
     }
@@ -88,18 +99,8 @@ class Home extends Component {
                     onClick={this.handleClick}
                     current={this.state.current}
                 />
-                <View>              
-                    <AtList>
-                        {this.props.papers.map(item => 
-                                <AtListItem
-                                title={item.title}
-                                note={item.author}
-                                arrow='right'
-                                thumb='http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png'
-                            />
-                        )}
-                    </AtList> 
-                </View>
+    { this.state.loaded === true && <PaperList list={this.props.papers} /> }
+    { this.state.loaded === false && <Loading /> }
             </View>
         )
     }
