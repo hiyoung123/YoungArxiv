@@ -60,4 +60,7 @@ taro build --type weapp --watch
 * 2020/02/05
   * 添加 loading 组件：components/loading
   * 抽离 PaperList 组件：components/paper-list
+* 2020/02/06
+  * 添加正在加载文字
+  * 
 

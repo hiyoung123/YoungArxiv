@@ -3,7 +3,7 @@
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable react/no-unused-state */
 import Taro, { Component }from '@tarojs/taro'
-import { View } from '@tarojs/components'
+import { View, Text } from '@tarojs/components'
 import { AtTabBar } from "taro-ui"
 import { connect } from '@tarojs/redux'
 import Loading from "../../components/loading";
@@ -15,6 +15,8 @@ import {
     getHotPapers,
     getRecommendPapers
  } from "../../actions/home"
+
+ import './index.scss'
 
 @connect(
     ({ home }) => ({
@@ -64,7 +66,7 @@ class Home extends Component {
     }
 
     fetchData(type) {
-        this.setState({ loading: true })
+        this.setState({ loading: true, loaded: false })
         console.log(type)
         switch(type){
             case 0:
@@ -89,7 +91,7 @@ class Home extends Component {
         return (
             <View>  
                 <FakeSearchBar onClick={this.onClickSearchBar} />
-                <View>广告栏</View>
+                {/* <View>广告栏</View> */}
                 <AtTabBar 
                     tabList={[
                         { title: '最新' },
@@ -101,6 +103,10 @@ class Home extends Component {
                 />
     { this.state.loaded === true && <PaperList list={this.props.papers} /> }
     { this.state.loaded === false && <Loading /> }
+    {this.state.loading && <View className='home__loading'>
+              <Text className='home__loading-txt'>正在加载中...</Text>
+            </View>
+          }
             </View>
         )
     }
