@@ -62,5 +62,5 @@ taro build --type weapp --watch
   * 抽离 PaperList 组件：components/paper-list
 * 2020/02/06
   * 添加正在加载文字
-  * 
+  * 修改 PaperList 实现方式：去除AtList。以便可以实现上拉加载功能。
 
