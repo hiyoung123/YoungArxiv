@@ -29,12 +29,12 @@ class ArxivspiderSpider(scrapy.Spider):
         for i in parser.entries:
             j = encode_feedparser_dict(i)
             item['id'] = self.start_index
-            item['published'] = j['published']
+            item['title'] = j['title'].replace('\n','')
+            item['summary'] = j['summary'].replace('\n','')
             item['author'] = j['author']
+            item['published'] = j['published']
             item['authors'] = [x['name'] for x in j['authors']]
             item['link'] = j['link']
-            item['summary'] = j['summary']
-            item['title'] = j['title']
             item['tags'] = [x['term'] for x in j['tags']]
             item['updated'] = j['updated']
             item['arxiv_primary_category'] = j['arxiv_primary_category']['term']

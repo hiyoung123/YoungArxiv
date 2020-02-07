@@ -63,4 +63,6 @@ taro build --type weapp --watch
 * 2020/02/06
   * 添加正在加载文字
   * 修改 PaperList 实现方式：去除AtList。以便可以实现上拉加载功能。
+* 2020/02/07
+  * 修改 Item 样式，目前还不是最终效果
 
