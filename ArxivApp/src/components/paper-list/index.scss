@@ -1,35 +1,39 @@
-.feed-item {
-    width: 690px;
-    padding: 30px 30px 20px;
-    margin: 7px 0 6px 0;
+.paper-item {
     background: #ffffff;
-    border-top: 1px solid #eee;
-    border-bottom: 1px solid #eee;
-    box-shadow: 0 2px 5px #eeeeee;
-    padding: 10px 0 0 0;
-    .question {
+    border-bottom: 1px solid black;
+    padding: 10px;
+    margin: 10px;
+    .paper-title {
         text,span {
           font-size: 28px;
-          font-weight: 600px;
-          line-height: 40px;
+          font-weight: bolder;
+        //   line-height: 20px;
         }
       }
-      .answer-body{
-        padding: 10px 0 0 0;
+    .paper-info{
+      padding: 10px 0 10px 0;
+      font-size: 24px;
+      line-height: 28px;
+      color: #5b5b5b;
+      
+    }
+    .paper-author{
+      color: #a0acac;
+      view,div,span {
+        display: inline-block;
+        vertical-align: text-bottom;
+        padding: 0 10px 0 0;
         font-size: 24px;
-        line-height: 28px;
-        color: #5b5b5b;
       }
-      .answer-actions{
-        width: 690px;
-        padding: 10px 0  0;
-        color: #a0acac;
-  
-        view,div,span {
-          display: inline-block;
-          vertical-align: text-bottom;
-          padding: 0 10px 0 0;
-          font-size: 24px;
-        }
-      }
+    }
+}
+
+.line-1 {
+    overflow: hidden; 
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* autoprefixer: off */
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+    -webkit-line-clamp: 2;
 }

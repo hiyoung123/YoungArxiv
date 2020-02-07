@@ -17,19 +17,15 @@ export default class PaperList extends Component {
             <View>
                 { list.map((item) => {
                     return (
-                        <View className='feed-item'>              
-                            <View className='question' onClick={this.navigateTo.bind(this,'/pages/question/question')}>
+                        <View className='paper-item'>              
+                            <View className='paper-title' onClick={this.navigateTo.bind(this,'/pages/question/question')}>
                                 <Text>{ item.title }</Text>
                             </View>
-                            <View className='answer-body'>
-                                <View>
-                                    <Text className='answer-txt' onClick={this.navigateTo.bind(this,'/pages/answer/answer')} >{ item.summary }</Text>
-                                </View>
-                                <View className='answer-actions'>
-                                    <View className='like dot'>
-                                        <View>{ item.author } </View>
-                                    </View>
-                                </View>
+                            <View className='paper-info'>
+                                <Text className='line-1' onClick={this.navigateTo.bind(this,'/pages/answer/answer')} >{ item.summary }</Text>
+                            </View>
+                            <View className='paper-author'>
+                                <View>{ item.author } </View>
                             </View>
                         </View>
                     )
@@ -38,9 +34,3 @@ export default class PaperList extends Component {
         )
     }
 }
-                            {/* <AtListItem
-                                title={item.title}
-                                note={item.author}
-                                arrow='right'
-                                thumb='http://img12.360buyimg.com/jdphoto/s72x72_jfs/t10660/330/203667368/1672/801735d7/59c85643N31e68303.png'
-                            /> */}
