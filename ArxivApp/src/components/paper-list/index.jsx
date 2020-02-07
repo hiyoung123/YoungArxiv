@@ -11,21 +11,25 @@ export default class PaperList extends Component {
         list: []
     }
 
+    handleClick = (itemid) => {
+        console.log('click item ', itemid)
+    }
+
     render () {
         const { list } = this.props
         return (
             <View>
                 { list.map((item) => {
                     return (
-                        <View className='paper-item'>              
-                            <View className='paper-title' onClick={this.navigateTo.bind(this,'/pages/question/question')}>
+                        <View className='paper-item' onClick={this.handleClick.bind(this,item.id)}>              
+                            <View className='paper-title'>
                                 <Text>{ item.title }</Text>
                             </View>
                             <View className='paper-info'>
-                                <Text className='line-1' onClick={this.navigateTo.bind(this,'/pages/answer/answer')} >{ item.summary }</Text>
+                                <Text className='line-1'>{ item.summary }</Text>
                             </View>
                             <View className='paper-author'>
-                                <View>{ item.author } </View>
+                                <View>{ item.author }</View>
                             </View>
                         </View>
                     )

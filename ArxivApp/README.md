@@ -65,4 +65,5 @@ taro build --type weapp --watch
   * 修改 PaperList 实现方式：去除AtList。以便可以实现上拉加载功能。
 * 2020/02/07
   * 修改 Item 样式，可以使文本显示两行，[参考文章](https://blog.csdn.net/Beamon__/article/details/82757172)
+  * 绑定 Item 点击事件。
 
