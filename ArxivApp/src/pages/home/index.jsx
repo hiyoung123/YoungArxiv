@@ -106,7 +106,6 @@ class Home extends Component {
                 />
     { this.state.loaded && <PaperList list={this.state.list} /> }
     { this.state.loading && <Loading /> }
-    { this.state.loading && <View className='home__loading'><Text className='home__loading-txt'>正在加载中...</Text></View>}
             </View>
         )
     }
