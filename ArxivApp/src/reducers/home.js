@@ -6,20 +6,20 @@ import {
 } from "../constants/home"
 
 const defaultState = {
-    papers : []
-    // newPapers : [],
-    // hotPapers : [],
-    // recommendPapers : [],
+    // papers : []
+    newPapers : [],
+    hotPapers : [],
+    recommendPapers : [],
   };
   
 const home = (state = defaultState, action) => {
     switch (action.type) {
         case GET_NEW_PAPER:
-            return { ...state, papers: state.papers = action.papers };
+            return { ...state, newPapers: state.newPapers = action.papers };
         case GET_HOT_PAPER:
-            return { ...state, papers: state.papers = action.papers };
+            return { ...state, hotPapers: state.hotPapers = action.papers };
         case GET_RECOMMEND_PAPER:
-            return { ...state, papers: state.papers = action.papers };
+            return { ...state, recommendPapers: state.recommendPapers = action.papers };
         default:
             return state;
     }

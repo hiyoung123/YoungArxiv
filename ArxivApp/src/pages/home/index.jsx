@@ -20,10 +20,11 @@ import {
 
 @connect(
     ({ home }) => ({
-        papers : home.papers
+        // papers : home.papers
     //   newPapers: home.newPapers,
     //   hotPapers: home.hotPapers,
     //   recommendPapers: home.recommendPapers
+      home
     }),
     {
       dispatchGetNewPapers: getNewPapers,
@@ -42,6 +43,7 @@ class Home extends Component {
 
     state = {
         current : 0,
+        list : [],
         loaded: false,
         loading: false,
       }
@@ -71,23 +73,24 @@ class Home extends Component {
         switch(type){
             case 0:
                 this.props.dispatchGetNewPapers().then((res) => {
-                    this.setState({ loading: false, loaded: true })
+                    this.setState({ loading: false, loaded: true, list: this.props.home.newPapers })
                 });
                 break
             case 1:
                 this.props.dispatchGetHotPapers().then((res) => {
-                    this.setState({ loading: false, loaded: true })
+                    this.setState({ loading: false, loaded: true, list: this.props.home.hotPapers })
                 });
                 break
             case 2:
                 this.props.dispatchGetRecommendPapers().then((res) => {
-                    this.setState({ loading: false, loaded: true })
+                    this.setState({ loading: false, loaded: true, list: this.props.home.recommendPapers })
                 });
                 break
         } 
     }
 
     render () {
+        // const list = [this.props.newPapers, this.props.hotPapers, this.props.recommendPapers]
         return (
             <View>  
                 <FakeSearchBar onClick={this.onClickSearchBar} />
@@ -101,12 +104,9 @@ class Home extends Component {
                     onClick={this.handleClick}
                     current={this.state.current}
                 />
-    { this.state.loaded === true && <PaperList list={this.props.papers} /> }
-    { this.state.loaded === false && <Loading /> }
-    {this.state.loading && <View className='home__loading'>
-              <Text className='home__loading-txt'>正在加载中...</Text>
-            </View>
-          }
+    { this.state.loaded && <PaperList list={this.state.list} /> }
+    { this.state.loading && <Loading /> }
+    { this.state.loading && <View className='home__loading'><Text className='home__loading-txt'>正在加载中...</Text></View>}
             </View>
         )
     }

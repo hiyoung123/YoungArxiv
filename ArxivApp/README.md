@@ -66,4 +66,6 @@ taro build --type weapp --watch
 * 2020/02/07
   * 修改 Item 样式，可以使文本显示两行，[参考文章](https://blog.csdn.net/Beamon__/article/details/82757172)
   * 绑定 Item 点击事件。
+* 2020/02/08
+  * 重构 Home 页面数据 fetch 方式，以便后续实现上拉加载，下拉刷新。
 

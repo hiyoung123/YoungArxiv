@@ -3,7 +3,6 @@
 /* eslint-disable react/jsx-no-undef */
 import Taro, { Component }from '@tarojs/taro'
 import { View } from '@tarojs/components'
-import { AtList, AtListItem } from "taro-ui"
 import './index.scss'
 
 export default class PaperList extends Component {
