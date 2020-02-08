@@ -53,19 +53,28 @@ taro build --type weapp --watch
   * 添加搜索栏组件：components/fake-search-bar/，styles/
   * 使用 URL 控制页面路由：constants/urls.js
   * 添加类别分页*AtTabBar*：最新，热门，推荐。
+  
 * 2020/02/03
   * 解决 async 不可用问题，[参考文章](https://blog.csdn.net/xubaifu1997/article/details/90605683)
   * 完成 Redux 集成，可以从 mock 中读取数据并显示。
   * 添加 AtList 组件，使用伪数据显示。
+  
 * 2020/02/05
   * 添加 loading 组件：components/loading
   * 抽离 PaperList 组件：components/paper-list
+  
 * 2020/02/06
   * 添加正在加载文字
   * 修改 PaperList 实现方式：去除AtList。以便可以实现上拉加载功能。
+  
 * 2020/02/07
   * 修改 Item 样式，可以使文本显示两行，[参考文章](https://blog.csdn.net/Beamon__/article/details/82757172)
   * 绑定 Item 点击事件。
+  
 * 2020/02/08
+
   * 重构 Home 页面数据 fetch 方式，以便后续实现上拉加载，下拉刷新。
 
+  * 完成上拉加载，后续需要重构。
+
+    注：onScrollToLower 的响应函数需要.bind去绑定，否则无限调用。
