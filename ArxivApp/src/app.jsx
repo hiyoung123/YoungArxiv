@@ -24,6 +24,7 @@ class App extends Component {
       // 'pages/index/index',
       'pages/home/index',
       'pages/user/index',
+      'pages/login/index'
       // 'pages/test/index'
     ],
     tabBar: {
@@ -36,7 +37,7 @@ class App extends Component {
         },
         {
           pagePath: "pages/user/index",
-          text: "个人中心",
+          text: "我的",
           iconPath: "./assets/tab_bar/user.png",
           selectedIconPath: "./assets/tab_bar/user-active.png"
         }

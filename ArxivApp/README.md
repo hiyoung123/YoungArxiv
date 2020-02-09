@@ -78,3 +78,7 @@ taro build --type weapp --watch
   * 完成上拉加载，后续需要重构。
 
     注：onScrollToLower 的响应函数需要.bind去绑定，否则无限调用。
+  
+* 2020/02/09
+
+  * 添加登录界面
