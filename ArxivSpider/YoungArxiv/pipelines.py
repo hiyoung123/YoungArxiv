@@ -1,3 +1,4 @@
+
 # -*- coding: utf-8 -*-
 
 # Define your item pipelines here
@@ -75,6 +76,8 @@ class ToJsonPipeline(object):
         line = json.dumps(dict(item)) + ",\n"
         self.file.write(line)
         return item
+
+    
 
 
 def download_pdf(pdf_path,pdf_url):

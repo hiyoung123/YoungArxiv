@@ -1,12 +1,8 @@
-#!usr/bin/env python  
-#-*- coding:utf-8 _*-  
-""" 
-@author: hiyoung 
-@file: main
-@time: 2019/8/29:
-"""
+#!usr/bin/env python
+#-*- coding:utf-8 _*-
+
 import os
-import sys
+import sys;
 from scrapy.cmdline import execute
 
 if __name__ == '__main__':

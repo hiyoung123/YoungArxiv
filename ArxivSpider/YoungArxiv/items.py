@@ -14,29 +14,18 @@ class YoungarxivItem(scrapy.Item):
     pass
 
 class ArxivItem(scrapy.Item):
-    id = scrapy.Field()
     pid = scrapy.Field()
-    version = scrapy.Field()
+    title = scrapy.Field()
+    published = scrapy.Field()
+    updated = scrapy.Field()
+    summary = scrapy.Field()
     author = scrapy.Field()
     authors = scrapy.Field()
-    summary = scrapy.Field()
-    title = scrapy.Field()
-    updated = scrapy.Field()
-    published = scrapy.Field()
-    link = scrapy.Field()
-    pdf_path = scrapy.Field()
-    pdf_url = scrapy.Field()
-    thumb_path = scrapy.Field()
+    cate = scrapy.Field()
     tags = scrapy.Field()
-    arxiv_primary_category = scrapy.Field()
-
-    # title_detail = scrapy.Field()
-    # updated_parsed = scrapy.Field()
-    # published_parsed = scrapy.Field()
-    # guidislink = scrapy.Field()
-    # author_detail = scrapy.Field()
-    # summary_detail = scrapy.Field()
-    # links = scrapy.Field()
+    link = scrapy.Field()
+    pdf = scrapy.Field()
+    version = scrapy.Field()
 
     def to_dict(self):
         res = {}

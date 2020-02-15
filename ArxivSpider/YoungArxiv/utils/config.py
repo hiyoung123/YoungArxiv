@@ -10,6 +10,6 @@ class Config(object):
     PDF_PATH = './data/pdf'
     THUMB_PATH = './data/thumb'
     TMP_PATH = './data/tmp'
-    start_index = 200
-    end_index = 300
-    batch_size = 100
+    start_index = 0
+    end_index = -1
+    batch_size = 2000
