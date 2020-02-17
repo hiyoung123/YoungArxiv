@@ -28,6 +28,7 @@ class ArxivspiderSpider(scrapy.Spider):
             self.end_index = int(parser.feed['opensearch_totalresults'])
         for i in parser.entries:
             j = encode_feedparser_dict(i)
+            item['id'] = self.start_index
             item['pid'] = j['id'].split('/')[-1]
             item['title'] = j['title'].replace('\n','').strip()
             item['published'] = j['published']

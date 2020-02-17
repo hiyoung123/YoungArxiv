@@ -12,56 +12,10 @@ import time
 import random
 import shutil
 from urllib.request import urlopen
+from twisted.enterprise import adbapi
+import pymysql.cursors
 
-from YoungArxiv.db.mgdb import MgDb
-from YoungArxiv.db.esdb import EsDb
 from YoungArxiv.utils.config import Config
-
-class ToMongoDbPipeline(object):
-
-    def __init__(self):
-        self.db = MgDb()
-        self.skip_num = 0
-        self.insert_num = 0
-
-    def process_item(self, item, spider):
-        result = self.db.find_one_by_id(item['id'])
-        if result is None or len(result) == 0 or result['version'] < item['version']:
-            if download_pdf(item['pdf_path'], item['pdf_url']):
-                if not covert_thumb(item['pdf_path'],item['thumb_path']):
-                    item['thumb_path'] = os.path.join(Config.THUMB_PATH,'missing.jpg')
-                self.db.insert_one(item.to_dict())
-                self.insert_num += 1
-                print('insert item {0}'.format(self.insert_num))
-            else:
-                self.skip_num += 1
-                print('skip item {0}'.format(self.skip_num))
-        else:
-            self.skip_num += 1
-            print('skip item {0}'.format(self.skip_num))
-
-
-class ToEsPipeline(object):
-    def __init__(self):
-        self.db = EsDb()
-        self.skip_num = 0
-        self.insert_num = 0
-
-    def process_item(self, item, spider):
-        result = self.db.find_one_by_id(item['id'])
-        if result is None or len(result) == 0 or result[0]['_source']['version'] < item['version']:
-            if download_pdf(item['pdf_path'], item['pdf_url']):
-                if not covert_thumb(item['pdf_path'], item['thumb_path']):
-                    item['thumb_path'] = os.path.join(Config.THUMB_PATH, 'missing.jpg')
-                self.db.insert_one(item)
-                self.insert_num += 1
-                print('insert item {0}'.format(self.insert_num))
-            else:
-                self.skip_num += 1
-                print('skip item {0}'.format(self.skip_num))
-        else:
-            self.skip_num += 1
-            print('skip item {0}'.format(self.skip_num))
 
 
 class ToJsonPipeline(object):
@@ -77,7 +31,63 @@ class ToJsonPipeline(object):
         self.file.write(line)
         return item
 
-    
+class DbPipeline(object):
+    def __init__(self):
+        """Initialize"""
+        self.dbpool = adbapi.ConnectionPool('pymysql',
+                host='localhost',
+                db='Arxiv',
+                user='root',
+                passwd='liuhaiyang210',
+                cursorclass=pymysql.cursors.DictCursor,
+                charset='utf8',
+                use_unicode=True
+                )
+
+    def shutdown(self):
+        """Shutdown the connection pool"""
+        self.dbpool.close()
+
+    def process_item(self,item,spider):
+        """Process each item process_item"""
+        query = self.dbpool.runInteraction(self.__insertdata, item, spider)
+        query.addErrback(self.handle_error)
+        return item
+
+    def __insertdata(self,tx,item,spider):
+        """Insert data into the sqlite3 database"""
+
+        # tx.execute("select * from paper where `pid` = {0}".format(item['pid']))
+        # print(item)
+        # result = tx.fetchone()
+        # if result:
+        #     print("已经存在")
+        # else:
+        print('insert ')
+        insert_sql = """
+                insert into paper(`pid`, `title`, `published`, `updated`, 
+                `summary`, `author`, `authors`, `cate`, `tags`, `link`, `pdf`, `version`) 
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                """
+        tx.execute(insert_sql,(
+                    # item['id'],
+                    item['pid'],
+                    item['title'],
+                    item['published'],
+                    item['updated'],
+                    item['summary'],
+                    item['author'],
+                    item['authors'],
+                    item['cate'],
+                    item['tags'],
+                    item['link'],
+                    item['pdf'],
+                    item['version']
+                ))
+        print("Item stored in db")
+    def handle_error(self,e):
+        print(e)
+
 
 
 def download_pdf(pdf_path,pdf_url):
