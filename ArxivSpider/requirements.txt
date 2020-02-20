@@ -2,3 +2,5 @@ scrapy==1.8.0
 feedparser==5.2.1
 pymongo==3.10.1
 elasticsearch_dsl==7.1.0
+django==2.2
+djangorestframework==3.11.0
