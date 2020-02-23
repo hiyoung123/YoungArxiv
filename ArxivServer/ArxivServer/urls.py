@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from rest_framework .documentation import include_docs_urls
 from ArxivApi.apis import paper_list
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/paper/', paper_list, name='paper-list'),
+    path('api/doc/', include_docs_urls(title='Arxiv API'))
 ]
