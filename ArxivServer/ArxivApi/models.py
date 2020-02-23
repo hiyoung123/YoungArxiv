@@ -3,7 +3,7 @@ from django.db import models
 # Create your models here.
 
 class PaperModel(models.Model):
-    id = models.IntegerField(primary_key=True, auto_created=True, default=0)
+    id = models.AutoField(primary_key=True)
     pid = models.TextField()
     title = models.TextField()
     published = models.TextField()
