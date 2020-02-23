@@ -65,7 +65,7 @@ class DbPipeline(object):
         # else:
         print('insert ')
         insert_sql = """
-                insert into paper(`pid`, `title`, `published`, `updated`, 
+                insert into arxivapi_papermodel(`pid`, `title`, `published`, `updated`, 
                 `summary`, `author`, `authors`, `cate`, `tags`, `link`, `pdf`, `version`) 
                 VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """
