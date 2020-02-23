@@ -6,6 +6,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
+import copy
 import json
 import os
 import time
@@ -50,7 +51,8 @@ class DbPipeline(object):
 
     def process_item(self,item,spider):
         """Process each item process_item"""
-        query = self.dbpool.runInteraction(self.__insertdata, item, spider)
+        asynItem = copy.deepcopy(item) #解决插入数据混乱重复的bug，添加同步锁。
+        query = self.dbpool.runInteraction(self.__insertdata, asynItem, spider)
         query.addErrback(self.handle_error)
         return item
 
@@ -63,14 +65,13 @@ class DbPipeline(object):
         # if result:
         #     print("已经存在")
         # else:
-        print('insert ')
+        # print('insert ')
         insert_sql = """
                 insert into arxivapi_papermodel(`pid`, `title`, `published`, `updated`, 
                 `summary`, `author`, `authors`, `cate`, `tags`, `link`, `pdf`, `version`) 
                 VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """
         tx.execute(insert_sql,(
-                    # item['id'],
                     item['pid'],
                     item['title'],
                     item['published'],
