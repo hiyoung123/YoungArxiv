@@ -10,6 +10,8 @@ from .serializers import PaperSerializer
 
 @api_view()
 def paper_list(request):
+    print(request.GET.get('_start'))
+    print(request.GET.get('_limit'))
     data = PaperModel.objects.all()
     data_serializers = PaperSerializer(data, many=True)
     return Response(data_serializers.data)

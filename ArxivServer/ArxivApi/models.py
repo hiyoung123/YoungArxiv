@@ -16,3 +16,6 @@ class PaperModel(models.Model):
     link = models.TextField()
     pdf = models.TextField()
     version = models.TextField()
+
+    class Index:
+        name = 'Papers'

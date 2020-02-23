@@ -14,7 +14,7 @@ const defaultPayload = {
 
 export const getNewPapers = (payload=defaultPayload) => {
     return async dispatch => {
-        let result = await API.get("news/?_start="+payload.start+"&_limit="+payload.size);
+        let result = await API.get("api/news/?_start="+payload.start+"&_limit="+payload.size);
         dispatch({
           type: GET_NEW_PAPER,
           papers: result
@@ -24,7 +24,7 @@ export const getNewPapers = (payload=defaultPayload) => {
 
 export const getHotPapers = (payload=defaultPayload) => {
   return async dispatch => {
-      let result = await API.get("hots/?_start="+payload.start+"&_limit="+payload.size);
+      let result = await API.get("api/hots/?_start="+payload.start+"&_limit="+payload.size);
       dispatch({
         type: GET_HOT_PAPER,
         papers: result
@@ -34,7 +34,7 @@ export const getHotPapers = (payload=defaultPayload) => {
 
 export const getRecommendPapers = (payload=defaultPayload) => {
   return async dispatch => {
-      let result = await API.get("recommends/?_start="+payload.start+"&_limit="+payload.size);
+      let result = await API.get("api/recommends/?_start="+payload.start+"&_limit="+payload.size);
       dispatch({
         type: GET_RECOMMEND_PAPER,
         papers: result
