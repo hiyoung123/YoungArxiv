@@ -9,10 +9,26 @@ from .models import PaperModel
 from .serializers import PaperSerializer
 
 @api_view()
-def paper_list(request):
-    print(request.GET.get('_start'))
-    print(request.GET.get('_limit'))
+def newPaperSet(request):
     # data = PaperModel.objects.all()
-    data = PaperModel.objects.raw('select * from arxivapi_papermodel limit {0},{1}'.format(request.GET.get('_start'), request.GET.get('_limit')))
+    data = PaperModel.objects.raw('select * from arxivapi_papermodel order by updated desc limit {0},{1}'
+                                  .format(request.GET.get('_start'), request.GET.get('_limit')))
+    data_serializers = PaperSerializer(data, many=True)
+    return Response(data_serializers.data)
+
+@api_view()
+def hotPaperSet(request):
+    # data = PaperModel.objects.all()
+    data = PaperModel.objects.raw('select * from arxivapi_papermodel order by favorite desc limit {0},{1}'
+                                  .format(request.GET.get('_start'), request.GET.get('_limit')))
+    data_serializers = PaperSerializer(data, many=True)
+    return Response(data_serializers.data)
+
+
+@api_view()
+def recommendPaperSet(request):
+    data = []
+    # data = PaperModel.objects.raw('select * from arxivapi_papermodel limit {0},{1}'
+    #                               .format(request.GET.get('_start'), request.GET.get('_limit')))
     data_serializers = PaperSerializer(data, many=True)
     return Response(data_serializers.data)

@@ -9,4 +9,5 @@ class PaperSerializer(serializers.ModelSerializer):
     class Meta:
         model = PaperModel
         fields = ['id', 'pid', 'title', 'published', 'updated', 'summary',
-                  'author', 'authors', 'cate', 'tags', 'link', 'pdf', 'version']
+                  'author', 'authors', 'cate', 'tags', 'link', 'pdf', 'version',
+                  'favorite', 'pv', 'pv_total_times']
