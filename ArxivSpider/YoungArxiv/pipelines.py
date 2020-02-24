@@ -7,7 +7,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 import copy
-import json
+import csv
 import os
 import time
 import random
@@ -19,17 +19,32 @@ import pymysql.cursors
 from YoungArxiv.utils.config import Config
 
 
-class ToJsonPipeline(object):
+class CSVPipeline(object):
 
     def open_spider(self, spider):
-        self.file = open('../data/papers/papers.json', 'w')
+        self.csvwriter = csv.writer(open('../data/papers/papers.csv', 'w'), delimiter=',')
+        self.csvwriter.writerow(['pid','title','published','updated','summary','author','authors',
+                                 'cate','tags','link','pdf','version','favorite','pv','pv_total_times'])
 
     def close_spider(self, spider):
-        self.file.close()
+        self.csvwriter.close()
 
     def process_item(self, item, spider):
-        line = json.dumps(dict(item)) + ",\n"
-        self.file.write(line)
+        self.csvwriter.writerow((item['pid'],
+                        item['title'],
+                        item['published'],
+                        item['updated'],
+                        item['summary'],
+                        item['author'],
+                        item['authors'],
+                        item['cate'],
+                        item['tags'],
+                        item['link'],
+                        item['pdf'],
+                        item['version'],
+                        item['favorite'],
+                        0,
+                        0))
         return item
 
 class DbPipeline(object):
@@ -59,36 +74,35 @@ class DbPipeline(object):
     def __insertdata(self,tx,item,spider):
         """Insert data into the sqlite3 database"""
 
-        # tx.execute("select * from paper where `pid` = {0}".format(item['pid']))
-        # print(item)
-        # result = tx.fetchone()
-        # if result:
-        #     print("已经存在")
-        # else:
-        # print('insert ')
-        insert_sql = """
-                insert into arxivapi_papermodel(`pid`, `title`, `published`, `updated`, 
-                `summary`, `author`, `authors`, `cate`, `tags`, `link`, `pdf`, `version`, `favorite`, `pv`, `pv_total_times`) 
-                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-                """
-        tx.execute(insert_sql,(
-                    item['pid'],
-                    item['title'],
-                    item['published'],
-                    item['updated'],
-                    item['summary'],
-                    item['author'],
-                    item['authors'],
-                    item['cate'],
-                    item['tags'],
-                    item['link'],
-                    item['pdf'],
-                    item['version'],
-                    item['favorite'],
-                    0,
-                    0
-                ))
-        print("Item stored in db")
+        tx.execute("select * from arxivapi_papermodel where `pid` = %s", item['pid'])
+        result = tx.fetchone()
+        if result:
+            print("已经存在"+item['title'])
+        else:
+            print('insert {0}:{1}:{2}'.format(item['pid'],item['title'],item['favorite']))
+            insert_sql = """
+                    insert into arxivapi_papermodel(`pid`, `title`, `published`, `updated`, 
+                    `summary`, `author`, `authors`, `cate`, `tags`, `link`, `pdf`, `version`, `favorite`, `pv`, `pv_total_times`) 
+                    VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                    """
+            tx.execute(insert_sql,(
+                        item['pid'],
+                        item['title'],
+                        item['published'],
+                        item['updated'],
+                        item['summary'],
+                        item['author'],
+                        item['authors'],
+                        item['cate'],
+                        item['tags'],
+                        item['link'],
+                        item['pdf'],
+                        item['version'],
+                        item['favorite'],
+                        0,
+                        0
+                    ))
+            print("Item stored in db")
     def handle_error(self,e):
         print(e)
 

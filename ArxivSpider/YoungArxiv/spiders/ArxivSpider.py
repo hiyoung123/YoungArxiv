@@ -17,8 +17,8 @@ class ArxivspiderSpider(scrapy.Spider):
     batch_size = Config.batch_size
 
 
-    filter_search = 'cat:cs.CV+OR+cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.NE+OR+cat:stat.ML' #96404
-    # all: cs.CV + OR + all:cs.AI + OR + all: cs.LG + OR + all:cs.CL + OR + all: cs.NE + OR + all:stat.ML 96410
+    # filter_search = 'cat:cs.CV+OR+cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.NE+OR+cat:stat.ML' #96404
+    filter_search = 'all:cs.CV+OR+all:cs.AI+OR+all:cs.LG+OR+all:cs.CL+OR+all:cs.NE+OR+all:stat.ML' #96410
     query_url = 'http://export.arxiv.org/api/query?search_query={0}&sortBy=lastUpdatedDate&start={1}&max_results={2}'
     start_urls = [query_url.format(filter_search,start_index,batch_size)]
 
