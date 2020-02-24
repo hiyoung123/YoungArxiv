@@ -27,6 +27,9 @@ class ArxivItem(scrapy.Item):
     link = scrapy.Field()
     pdf = scrapy.Field()
     version = scrapy.Field()
+    favorite = scrapy.Field()
+    pv = scrapy.Field()
+    pv_total_times = scrapy.Field()
 
     def to_dict(self):
         res = {}

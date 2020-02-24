@@ -3,6 +3,7 @@
 import os
 import scrapy
 import feedparser
+import dateutil.parser
 from YoungArxiv.items import ArxivItem
 from YoungArxiv.utils.common import encode_feedparser_dict
 from YoungArxiv.utils.config import Config
@@ -30,8 +31,8 @@ class ArxivspiderSpider(scrapy.Spider):
             j = encode_feedparser_dict(i)
             item['pid'] = j['id'].split('/')[-1]
             item['title'] = j['title'].replace('\n','').strip()
-            item['published'] = j['published']
-            item['updated'] = j['updated']
+            item['published'] = dateutil.parser.parse(j['published'])
+            item['updated'] = dateutil.parser.parse(j['updated'])
             item['summary'] = j['summary'].replace('\n','').strip()
             item['author'] = j['author']
             item['authors'] = '|'.join([x['name'] for x in j['authors']])
@@ -40,6 +41,8 @@ class ArxivspiderSpider(scrapy.Spider):
             item['link'] = j['link']
             item['pdf'] = [x['href'] for x in j['links'] if x['type'] == 'application/pdf'][0]+'.pdf'
             item['version'] = item['pid'].split('v')[-1]
+
+            item['favorite'] = self.start_index # 假数据
             self.start_index += 1
             yield item
 

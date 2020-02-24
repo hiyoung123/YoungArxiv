@@ -68,8 +68,8 @@ class DbPipeline(object):
         # print('insert ')
         insert_sql = """
                 insert into arxivapi_papermodel(`pid`, `title`, `published`, `updated`, 
-                `summary`, `author`, `authors`, `cate`, `tags`, `link`, `pdf`, `version`) 
-                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                `summary`, `author`, `authors`, `cate`, `tags`, `link`, `pdf`, `version`, `favorite`, `pv`, `pv_total_times`) 
+                VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
                 """
         tx.execute(insert_sql,(
                     item['pid'],
@@ -83,7 +83,10 @@ class DbPipeline(object):
                     item['tags'],
                     item['link'],
                     item['pdf'],
-                    item['version']
+                    item['version'],
+                    item['favorite'],
+                    0,
+                    0
                 ))
         print("Item stored in db")
     def handle_error(self,e):
