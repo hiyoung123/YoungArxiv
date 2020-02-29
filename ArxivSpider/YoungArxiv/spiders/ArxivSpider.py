@@ -15,12 +15,22 @@ class ArxivspiderSpider(scrapy.Spider):
     start_index = Config.start_index
     end_index = Config.end_index
     batch_size = Config.batch_size
-
+    filter_idx = 0
 
     # filter_search = 'cat:cs.CV+OR+cat:cs.AI+OR+cat:cs.LG+OR+cat:cs.CL+OR+cat:cs.NE+OR+cat:stat.ML' #96404
-    filter_search = 'all:cs.CV+OR+all:cs.AI+OR+all:cs.LG+OR+all:cs.CL+OR+all:cs.NE+OR+all:stat.ML' #96410
+    # filter_search = 'all:cs.CV+OR+all:cs.AI+OR+all:cs.LG+OR+all:cs.CL+OR+all:cs.NE+OR+all:stat.ML' #96410
+    filter_list = ['all:cs.CV', 'all:cs.AI', 'all:cs.LG', 'all:cs.CL', 'all:cs.NE', 'all:stat.ML']
+    '''
+        all:cs.CV : 37321
+        all:cs.AI : 22648
+        all:cs.LG : 50515
+        all:cs.CL : 17634
+        all:cs.NE : 7473
+        all:stat.ML : 36627
+        all : 113837 - 172218
+    '''
     query_url = 'http://export.arxiv.org/api/query?search_query={0}&sortBy=lastUpdatedDate&start={1}&max_results={2}'
-    start_urls = [query_url.format(filter_search,start_index,batch_size)]
+    start_urls = [query_url.format(filter_list[filter_idx],start_index,batch_size)]
 
     def parse(self, response):
         item = ArxivItem()
@@ -48,7 +58,14 @@ class ArxivspiderSpider(scrapy.Spider):
             self.start_index += 1
             yield item
 
-        if self.start_index < self.end_index :
-            yield scrapy.Request(url=self.query_url.format(self.filter_search,self.start_index,self.batch_size),
+        if self.start_index < self.end_index and self.start_index < 50000:
+            yield scrapy.Request(url=self.query_url.format(self.filter_list[self.filter_idx],self.start_index,self.batch_size),
                                  callback=self.parse,dont_filter=True)
-
+        else:
+            # 爬取下一个分类
+            self.filter_idx = self.filter_idx + 1
+            self.start_index = Config.start_index
+            self.end_index = Config.end_index
+            yield scrapy.Request(
+                url=self.query_url.format(self.filter_list[self.filter_idx], self.start_index, self.batch_size),
+                callback=self.parse, dont_filter=True)

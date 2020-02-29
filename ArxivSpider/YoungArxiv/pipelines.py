@@ -7,7 +7,6 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 import copy
-import csv
 import os
 import time
 import random
@@ -25,14 +24,18 @@ class CSVPipeline(object):
         self.file = open('../data/papers/papers.csv', 'wb')
         self.exporter = CsvItemExporter(self.file, include_headers_line=True,encoding='utf-8')
         self.exporter.start_exporting()
+        self.saved_list = []
 
     def process_item(self, item, spider):
-        self.exporter.export_item(item)
+        if item['pid'] not in self.saved_list:
+            self.exporter.export_item(item)
+            self.saved_list.append(item['pid'])
         return item
 
     def close_spider(self, spider):
         self.exporter.finish_exporting()
         self.file.close()
+        print('Saved item size: {0}'.format(len(self.saved_list)))
 
 class DbPipeline(object):
     def __init__(self):
