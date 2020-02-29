@@ -15,37 +15,24 @@ import shutil
 from urllib.request import urlopen
 from twisted.enterprise import adbapi
 import pymysql.cursors
+from scrapy.exporters import CsvItemExporter
 
 from YoungArxiv.utils.config import Config
 
 
 class CSVPipeline(object):
-
-    def open_spider(self, spider):
-        self.csvwriter = csv.writer(open('../data/papers/papers.csv', 'w'), delimiter=',')
-        self.csvwriter.writerow(['pid','title','published','updated','summary','author','authors',
-                                 'cate','tags','link','pdf','version','favorite','pv','pv_total_times'])
-
-    def close_spider(self, spider):
-        self.csvwriter.close()
+    def __init__(self):
+        self.file = open('../data/papers/papers.csv', 'wb')
+        self.exporter = CsvItemExporter(self.file, include_headers_line=True,encoding='utf-8')
+        self.exporter.start_exporting()
 
     def process_item(self, item, spider):
-        self.csvwriter.writerow((item['pid'],
-                        item['title'],
-                        item['published'],
-                        item['updated'],
-                        item['summary'],
-                        item['author'],
-                        item['authors'],
-                        item['cate'],
-                        item['tags'],
-                        item['link'],
-                        item['pdf'],
-                        item['version'],
-                        item['favorite'],
-                        0,
-                        0))
+        self.exporter.export_item(item)
         return item
+
+    def close_spider(self, spider):
+        self.exporter.finish_exporting()
+        self.file.close()
 
 class DbPipeline(object):
     def __init__(self):
@@ -99,8 +86,8 @@ class DbPipeline(object):
                         item['pdf'],
                         item['version'],
                         item['favorite'],
-                        0,
-                        0
+                        item['pv'],
+                        item['pv_total_times']
                     ))
             print("Item stored in db")
     def handle_error(self,e):

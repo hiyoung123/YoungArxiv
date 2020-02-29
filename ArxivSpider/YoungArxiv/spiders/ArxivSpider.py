@@ -41,8 +41,10 @@ class ArxivspiderSpider(scrapy.Spider):
             item['link'] = j['link']
             item['pdf'] = [x['href'] for x in j['links'] if x['type'] == 'application/pdf'][0]+'.pdf'
             item['version'] = item['pid'].split('v')[-1]
-
+            item['pv'] = 0  # 假数据
+            item['pv_total_times'] = 0  # 假数据
             item['favorite'] = self.start_index # 假数据
+            item['id'] = self.start_index # 假数据
             self.start_index += 1
             yield item
 
