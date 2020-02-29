@@ -65,8 +65,8 @@ ROBOTSTXT_OBEY = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-     # 'YoungArxiv.pipelines.CSVPipeline': 300,
-     'YoungArxiv.pipelines.DbPipeline': 300,
+     'YoungArxiv.pipelines.CSVPipeline': 300,
+     'YoungArxiv.pipelines.DbPipeline': 301,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -89,4 +89,4 @@ ITEM_PIPELINES = {
 #HTTPCACHE_DIR = 'httpcache'
 #HTTPCACHE_IGNORE_HTTP_CODES = []
 #HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
-# LOG_LEVEL = 'WARNING'
+LOG_LEVEL = 'WARNING'

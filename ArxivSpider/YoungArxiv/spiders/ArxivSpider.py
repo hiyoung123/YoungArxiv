@@ -30,6 +30,8 @@ class ArxivspiderSpider(scrapy.Spider):
         all : 113837 - 172218
     '''
     query_url = 'http://export.arxiv.org/api/query?search_query={0}&sortBy=lastUpdatedDate&start={1}&max_results={2}'
+    # 升序
+    # query_url = 'http://export.arxiv.org/api/query?search_query={0}&sortBy=lastUpdatedDate&start={1}&max_results={2}&sortOrder=ascending'
     start_urls = [query_url.format(filter_list[filter_idx],start_index,batch_size)]
 
     def parse(self, response):
