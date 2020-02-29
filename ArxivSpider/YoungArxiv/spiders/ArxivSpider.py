@@ -61,7 +61,7 @@ class ArxivspiderSpider(scrapy.Spider):
         if self.start_index < self.end_index and self.start_index < 50000:
             yield scrapy.Request(url=self.query_url.format(self.filter_list[self.filter_idx],self.start_index,self.batch_size),
                                  callback=self.parse,dont_filter=True)
-        else:
+        elif self.filter_idx < len(self.filter_list):
             # 爬取下一个分类
             self.filter_idx = self.filter_idx + 1
             self.start_index = Config.start_index
@@ -69,3 +69,5 @@ class ArxivspiderSpider(scrapy.Spider):
             yield scrapy.Request(
                 url=self.query_url.format(self.filter_list[self.filter_idx], self.start_index, self.batch_size),
                 callback=self.parse, dont_filter=True)
+        else:
+            print('Done')
