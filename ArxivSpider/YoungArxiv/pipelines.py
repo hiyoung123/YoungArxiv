@@ -42,7 +42,7 @@ class DbPipeline(object):
         """Initialize"""
         self.dbpool = adbapi.ConnectionPool('pymysql',
                 host='localhost',
-                db='Arxiv',
+                db='YoungArxiv',
                 user='root',
                 passwd='liuhaiyang210',
                 cursorclass=pymysql.cursors.DictCursor,
