@@ -7,10 +7,7 @@ node_modules/
 .editorconfig
 .eslintrc
 .npmrc
-package.json
-project.config.json
 __pycache__/
-*.json
 .idea/
 *.db
 *.sqlite3
